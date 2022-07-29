@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/page_one.dart';
+import 'package:navigation/views/page_one.dart';
 
 void main() {
   runApp(const MyApp());
