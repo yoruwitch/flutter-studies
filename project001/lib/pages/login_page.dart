@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:project001/controllers/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final LoginController _controller = LoginController();
+
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +20,33 @@ class LoginPage extends StatelessWidget {
               Icons.person,
               size: 78,
             ),
-            const TextField(
+            TextField(
               decoration: InputDecoration(
                 label: Text('Login'),
               ),
+              onChanged: _controller.setLogin,
             ),
-            const TextField(
-              decoration: InputDecoration(
-                label: Text('Password'),
-              ),
-              obscureText: true,
-            ),
+            TextField(
+                decoration: InputDecoration(
+                  label: Text('Password'),
+                ),
+                obscureText: true,
+                onChanged: _controller.setPassword),
             const SizedBox(height: 15),
-            ElevatedButton(onPressed: () {}, child: const Text('Login'))
+            ValueListenableBuilder(
+              valueListenable: _controller.inLoader,
+              builder: (_, inLoader, __) => ElevatedButton(
+                  onPressed: () {
+                    _controller.auth().then((result) {
+                      if (result) {
+                        Navigator.of(context).pushReplacementNamed('/home');
+                      } else {
+                        print('failed');
+                      }
+                    });
+                  },
+                  child: const Text('Login')),
+            )
           ],
         ),
       ),
