@@ -3,7 +3,6 @@ import 'package:project001/controllers/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginController _controller = LoginController();
-
   LoginPage({Key? key}) : super(key: key);
 
   @override
@@ -41,7 +40,11 @@ class LoginPage extends StatelessWidget {
                       if (result) {
                         Navigator.of(context).pushReplacementNamed('/home');
                       } else {
-                        print('failed');
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.red,
+                          content: const Text('Login failed'),
+                          duration: const Duration(seconds: 1),
+                        ));
                       }
                     });
                   },
