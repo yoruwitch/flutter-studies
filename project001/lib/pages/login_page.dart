@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project001/components/login/login_button_component.dart';
 import 'package:project001/controllers/login_controller.dart';
+import 'package:project001/widgets/text_field_widget.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginController _controller = LoginController();
@@ -19,37 +21,14 @@ class LoginPage extends StatelessWidget {
               Icons.person,
               size: 78,
             ),
-            TextField(
-              decoration: InputDecoration(
-                label: Text('Login'),
-              ),
-              onChanged: _controller.setLogin,
+            TextFieldWidget(onChanged: _controller.setLogin, label: 'Login'),
+            TextFieldWidget(
+              onChanged: _controller.setPassword,
+              label: 'Password',
+              obscureText: true,
             ),
-            TextField(
-                decoration: InputDecoration(
-                  label: Text('Password'),
-                ),
-                obscureText: true,
-                onChanged: _controller.setPassword),
             const SizedBox(height: 15),
-            ValueListenableBuilder(
-              valueListenable: _controller.inLoader,
-              builder: (_, inLoader, __) => ElevatedButton(
-                  onPressed: () {
-                    _controller.auth().then((result) {
-                      if (result) {
-                        Navigator.of(context).pushReplacementNamed('/home');
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor: Colors.red,
-                          content: const Text('Login failed'),
-                          duration: const Duration(seconds: 1),
-                        ));
-                      }
-                    });
-                  },
-                  child: const Text('Login')),
-            )
+            LoginButtonComponent(loginController: _controller)
           ],
         ),
       ),
